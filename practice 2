@@ -1,0 +1,361 @@
+index
+{% extends 'base.html' %}
+
+login
+{% extends 'base.html' %}
+
+{% block body %}
+<br><br><br>
+
+
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+  
+              <div class="mb-md-5 mt-md-4 pb-5">
+                <form action="{% url 'login' %}" method='POST'>
+                        {% csrf_token %}
+                    <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                    <p class="text-white-50 mb-5">Please enter your login and password!</p>
+    
+                    <div class="form-outline form-white mb-4">
+                    <input type="password" name='username' id="typeEmailX" class="form-control form-control-lg" autocomplete="off" required/>
+                    <label class="form-label" for="typeEmailX">Username</label>
+                    </div>
+    
+                    <div class="form-outline form-white mb-4">
+                    <input type="password" name='password' id="typePasswordX" class="form-control form-control-lg" autocomplete="off" required/>
+                    <label class="form-label" for="typePasswordX">Password</label>
+                    </div>
+    
+    
+                    <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                </form>
+              </div>
+  
+              
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+{% endblock body %}
+
+
+
+profile
+
+
+{% extends 'base.html' %}
+
+{% block body %}
+<br><br><br>
+
+<br>
+<div class="student-profile py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card shadow-sm">
+            <div class="card-header bg-transparent text-center">
+              <img class="profile_img" src="https://source.unsplash.com/600x300/?student" alt="student dp"><br>
+              <h3> Hello ! {{request.user.username}}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card shadow-sm">
+            <div class="card-header bg-transparent border-0">
+              <h3 class="mb-0"><i class="far fa-clone pr-1"></i>General Information</h3>
+            </div>
+            <div class="card-body pt-0">
+              <table class="table table-bordered">
+                <tr>
+                  <th width="30%">Username</th>
+                  <td width="2%">:</td>
+                  <td>{{user.username}}</td>
+                </tr>
+                <tr>
+                    <th width="30%">Role</th>
+                    <td width="2%">:</td>
+                    <td>{{user.role}}</td>
+                  </tr>
+                <tr>
+                  <th width="30%">First name</th>
+                  <td width="2%">:</td>
+                  <td>{{user.first_name}}</td>
+                </tr>
+                <tr>
+                  <th width="30%">Last name</th>
+                  <td width="2%">:</td>
+                  <td>{{user.last_name}}</td>
+                </tr>
+                <tr>
+                  <th width="30%">Mobile</th>
+                  <td width="2%">:</td>
+                  <td>{{user.mobile}}</td>
+                </tr>
+                <tr>
+                    <th width="30%">Email</th>
+                    <td width="2%">:</td>
+                    <td>{{user.email}}</td>
+                </tr>
+                <tr>
+                    <th width="30%">Country</th>
+                    <td width="2%">:</td>
+                    <td>{{user.country}}</td>
+                  </tr>
+                  <tr>
+                    <th width="30%">State</th>
+                    <td width="2%">:</td>
+                    <td>{{user.state}}</td>
+                  </tr>
+                  <tr>
+                    <th width="30%">City</th>
+                    <td width="2%">:</td>
+                    <td>{{user.city}}</td>
+                  </tr>
+                  <tr>
+                    <th width="30%">Zip Code</th>
+                    <td width="2%">:</td>
+                    <td>{{user.zipcode}}</td>
+                  </tr>
+              </table>
+            </div>
+          </div>
+            <div style="height: 26px"></div>
+
+                <a href="{% url 'editprofile' %}">Edit</a>
+
+   
+            <div class="card-body pt-0">
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+register
+{% extends 'base.html' %}
+
+
+{% block body %}
+<br><br><br>
+
+
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Register </h4>
+                </div>
+
+                <form action="{% url 'register' %}" method='POST'>
+                    {% csrf_token %}
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">first_name</label><input type="text" class="form-control" placeholder="first name"  name="first_name" required></div>
+                        <div class="col-md-6"><label class="labels">last_name</label><input type="text" class="form-control"  placeholder="last name" name="last_name" required></div>
+                    </div>
+                    <div class="row mt-3">
+                        {% if request.user.is_authenticated and request.user.role == "Teacher"%}
+                        <div class="col-md-12"><label class="labels">Role</label><select type="text" class="form-control"  name="role"><option value="Student">Student</option></select></div>
+                        {% endif %}
+                        {% if request.user.is_authenticated and request.user.role == "Principal"%}
+                        <div class="col-md-12"><label class="labels">Role</label><select type="text" class="form-control"  name="role"><option value="Student">Student</option><option value="Teacher">Teacher</option></select></div>
+                        {% endif %}
+                        <div class="col-md-12"><label class="labels">Username</label><input type="text" class="form-control" placeholder="enter Username"  name="username" required></div>
+                        <div class="col-md-12"><label class="labels">Password</label><input type="text" class="form-control" placeholder="password"  name="password" required></div>
+                        <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number"  name="mobile" required></div>
+                        <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id"  name="email" required></div>
+                        <div class="col-md-12"><label class="labels">landmark</label><input type="text" class="form-control" placeholder="enter landmark"  name="landmark" required></div>
+                        <div class="col-md-12"><label class="labels">City</label><input type="text" class="form-control" placeholder="enter city"  name="city" required></div>
+                        <div class="col-md-12"><label class="labels">Zipcode</label><input type="text" class="form-control" placeholder="enter zipcode"  name="zipcode" required></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" name="country" required></div>
+                        <div class="col-md-6"><label class="labels">State</label><input type="text" class="form-control"  placeholder="state" name="state" required></div>
+                    </div>
+                        <div class="mt-5 text-center">
+                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                </form>   
+                        <form action="{% url 'studentdetails' %}">
+                            <button class="btn btn-primary profile-button my-2" type="submit">Cancel</button>
+                        </form>
+                    </div>
+                    
+                  
+                          
+                   
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock body %}
+
+
+studentdetails
+
+{% extends 'base.html' %}
+
+{% block body %}
+<br><br><br>
+
+<br>
+<div class="student-profile py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card shadow-sm">
+            <div class="card-header bg-transparent text-center">
+              <img class="profile_img" src="https://source.unsplash.com/600x300/?student" alt="student dp"><br>
+              <h3> {{student.username}}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card shadow-sm">
+            <div class="card-header bg-transparent border-0">
+              <h3 class="mb-0"><i class="far fa-clone pr-1"></i>General Information</h3>
+            </div>
+            <div class="card-body pt-0">
+              <table class="table table-bordered">
+                <tr>
+                  <th width="30%">Username</th>
+                  <td width="2%">:</td>
+                  <td>{{student.username}}</td>
+                </tr>
+                <tr>
+                    <th width="30%">Role</th>
+                    <td width="2%">:</td>
+                    <td>{{student.role}}</td>
+                  </tr>
+                <tr>
+                  <th width="30%">First name</th>
+                  <td width="2%">:</td>
+                  <td>{{student.first_name}}</td>
+                </tr>
+                <tr>
+                  <th width="30%">Last name</th>
+                  <td width="2%">:</td>
+                  <td>{{student.last_name}}</td>
+                </tr>
+                <tr>
+                  <th width="30%">Mobile</th>
+                  <td width="2%">:</td>
+                  <td>{{student.mobile}}</td>
+                </tr>
+                <tr>
+                    <th width="30%">Email</th>
+                    <td width="2%">:</td>
+                    <td>{{student.email}}</td>
+                </tr>
+                <tr>
+                    <th width="30%">Country</th>
+                    <td width="2%">:</td>
+                    <td>{{student.country}}</td>
+                  </tr>
+                  <tr>
+                    <th width="30%">State</th>
+                    <td width="2%">:</td>
+                    <td>{{student.state}}</td>
+                  </tr>
+                  <tr>
+                    <th width="30%">City</th>
+                    <td width="2%">:</td>
+                    <td>{{student.city}}</td>
+                  </tr>
+                  <tr>
+                    <th width="30%">Zip Code</th>
+                    <td width="2%">:</td>
+                    <td>{{student.zipcode}}</td>
+                  </tr>
+              </table>
+            </div>
+          </div>
+            <div style="height: 26px"></div>
+
+            <div class="card-body pt-0">
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+teacher profile
+{% extends 'base.html' %}
+
+
+{% block body %}
+<br><br><br><br><br>
+<div class='container' >
+
+<a href={% url 'teacherdetails' %}>
+<button type="button" class="btn btn-primary ">All Teachers</button>
+</a>
+<a href={% url 'register' %}>
+<button type="button" class="btn btn-primary">Add Teacher</button>
+</a>
+
+
+</div>
+
+
+<div class="container my-3">
+    <table class="table table-hover table-warning">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Action</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for teacher in teachers %}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{teacher.first_name}}</td>
+                <td>{{teacher.email}}</td>
+                <td>{{teacher.mobile}}</td>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'stdetails' teacher.id %}" role="button">View</a>
+                    <a class="btn btn-primary " href="{% url 'editstudent' teacher.id %}" role="button">Edit</a>
+                    <a class="btn btn-primary" href="{% url 'deleteprofile' teacher.id %}" role="Delete">Delete</a>
+                </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+
+
+{% endblock body %}
