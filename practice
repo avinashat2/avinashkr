@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<br><br><br>
+
+<br>
+<div class="student-profile py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card shadow-sm">
+            <div class="card-header bg-transparent text-center">
+              <img class="profile_img" src="https://source.unsplash.com/600x300/?student" alt="student dp"><br>
+              <h3> Hello ! {{request.user.username}}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card shadow-sm">
+            <div class="card-header bg-transparent border-0">
+              <h3 class="mb-0"><i class="far fa-clone pr-1"></i>General Information</h3>
+            </div>
+            <div class="card-body pt-0">
+              <table class="table table-bordered">
+                <tr>
+                  <th width="30%">Username</th>
+                  <td width="2%">:</td>
+                  <td>{{user.username}}</td>
+                </tr>
+                <tr>
+                    <th width="30%">Role</th>
+                    <td width="2%">:</td>
+                    <td>{{user.role}}</td>
+                  </tr>
+                <tr>
+                  <th width="30%">First name</th>
+                  <td width="2%">:</td>
+                  <td>{{user.first_name}}</td>
+                </tr>
+                <tr>
+                  <th width="30%">Last name</th>
+                  <td width="2%">:</td>
+                  <td>{{user.last_name}}</td>
+                </tr>
+                <tr>
+                  <th width="30%">Mobile</th>
+                  <td width="2%">:</td>
+                  <td>{{user.mobile}}</td>
+                </tr>
+                <tr>
+                    <th width="30%">Email</th>
+                    <td width="2%">:</td>
+                    <td>{{user.email}}</td>
+                </tr>
+                <tr>
+                    <th width="30%">Country</th>
+                    <td width="2%">:</td>
+                    <td>{{user.country}}</td>
+                  </tr>
+                  <tr>
+                    <th width="30%">State</th>
+                    <td width="2%">:</td>
+                    <td>{{user.state}}</td>
+                  </tr>
+                  <tr>
+                    <th width="30%">City</th>
+                    <td width="2%">:</td>
+                    <td>{{user.city}}</td>
+                  </tr>
+                  <tr>
+                    <th width="30%">Zip Code</th>
+                    <td width="2%">:</td>
+                    <td>{{user.zipcode}}</td>
+                  </tr>
+              </table>
+            </div>
+          </div>
+            <div style="height: 26px"></div>
+
+                <a href="{% url 'editprofile' %}">Edit</a>
+   
+            <div class="card-body pt-0">
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock body %}
+
+
+
+
+
+#   views 
+
+
+
+
+
+from django.shortcuts import redirect, render
+from .models import User
+from django.contrib import messages
+from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.decorators import login_required
+
+
+# Create your views here.
+
+
+def Index(request):
+    return render(request,'index.html')
+
+
+def Signuphandle(request):
+    if request.method=='POST':
+        username=request.POST.get('username')
+        email=request.POST.get('email')
+        password1=request.POST.get('password1')
+        password2=request.POST.get('password2')
+        if password1 == password2 :
+            if len(username) and len(email) and len(password1) and len(password2) > 30:
+                messages.error(request,'please enter the valid input')
+                return redirect('signup')
+            if User.objects.filter(username=username).exists():
+                messages.error(request,'This username is already taken !')
+                return redirect('signup')
+            User.objects.create_user(username=username,password=password1)
+            messages.success(request,'Signup success !')
+            return redirect('index')
+    return render(request,'signup.html')
+    
+
+def Loginhandle(request):
+    if request.method =='POST':
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        if len(username) and len(password)  > 30:
+                messages.error(request,'please enter the valid input')
+                return redirect('signup')
+        user=authenticate(username=username,password=password)
+        if user is not None:
+            login(request,user)
+            messages.success(request,'logged in sucess !')
+            return redirect('index')
+        messages.error(request,'Invalid details !')
+        return redirect('login')
+    
+    return render(request,'login.html')
+
+
+def Logouthandle(request):
+    logout(request)
+    messages.success(request,'User logged out sucess !')
+    return redirect('index')
+
+@login_required
+def Userprofile(request):
+    user=User.objects.get(id=request.user.id)
+    return render(request,'profile.html',{'user':user})
+
+@login_required
+def Editprofile(request):
+    user=User.objects.get(id=request.user.id)
+    if request.method=='POST':
+        if request.POST.get("first_name"):
+            user.first_name=request.POST.get("first_name")
+        if request.POST.get("last_name"):
+            user.last_name=request.POST.get("last_name")
+        if request.POST.get("email"):
+            user.email=request.POST.get("email")
+        if request.POST.get("mobile"):
+            user.mobile=request.POST.get("mobile")
+        if request.POST.get("role"):
+            user.role=request.POST.get("role")
+        if request.POST.get("city"):
+            user.city=request.POST.get("city")
+        if request.POST.get("landmark"):
+            user.landmark=request.POST.get("landmark")
+        if request.POST.get("state"):
+            user.state=request.POST.get("state")
+        if request.POST.get("state"):
+            user.zipcode=request.POST.get("zipcode")
+        if request.POST.get("zipcode"):
+            user.country=request.POST.get("country")
+        user.save()
+        messages.success(request,'Profile updated sucessfull !')
+
+    return render(request,'editprofile.html',{'user':user})
+
+
+@login_required
+def Profiledelete(request,id):
+    user=User.objects.get(id=id)
+    user.delete()
+    messages.success('User deleted Success !')
+    return redirect('index')
+
+
+@login_required
+def Studentdetails(request):
+    student=User.objects.filter(role='Student')
+    return render(request,'studentprofile.html',{'student':student})
+
+
+
+
+@login_required
+def Teacherdetails(request):
+    teacher=User.objects.filter(role='Teacher')
+    return render(request,'teacherprofile.html.html',{'teacher':teacher})
