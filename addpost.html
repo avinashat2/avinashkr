@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<br><br><br><br><br>
+
+
+<div class="container">
+<form method='POST' action="{% url 'addpost' %}">
+    {% csrf_token %}
+    <label for="title">Add Title</label><br>
+    <input type="textarea" class="col-8" name='title' required /><br>
+    <label for="content">Add Content</label><br>
+    <textarea  type="textarea" class="col-8" rows="10" name='content' required ></textarea><br>
+    <button type='submit' class="btn btn-primary my-2">Submit</button>
+
+</form>
+
+</div>
+
+
+
+{% endblock body %}

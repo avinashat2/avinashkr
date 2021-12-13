@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<br><br><br><br><br>
+
+{% if request.user.is_authenticated %}
+<div class="container">
+<a href="{% url 'addpost' %}"
+<button type="button" class="btn btn-primary">Add Post</button>
+{% endif %}
+</a><br><br>
+
+
+{% if posts %}
+
+{% for post in posts  %}
+
+<div class="container alert-info">
+<h4 style="color:red">{{ post.title }}</h4>
+<br>
+<p style="color:black">{{ post.content | truncatechars:255  }}<a href="{% url 'readpost' post.id %}">continue</a></p>
+</div><br>
+
+{% endfor %}
+
+{% endif %}
+
+
+{% endblock body %}
+
+
+
+</div>
